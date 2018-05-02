@@ -6,7 +6,7 @@
 //  Copyright © 2018年 阿杰. All rights reserved.
 //
 #import <Foundation/Foundation.h>
-#import "NSDataUtil.h"
+#import <SSNSDK/NSDataUtil.h>
 @interface NSMessage : NSObject{
     NSData * msgData;
 }
