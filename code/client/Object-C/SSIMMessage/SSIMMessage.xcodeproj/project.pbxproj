@@ -17,6 +17,8 @@
 		032CF18A2099957700D9553C /* NSLoginMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF1852099957700D9553C /* NSLoginMessage.m */; };
 		032CF18B2099957700D9553C /* NSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF1862099957700D9553C /* NSMessage.m */; };
 		032CF18C2099957700D9553C /* NSMessageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF1872099957700D9553C /* NSMessageFactory.m */; };
+		032CF19420999BAD00D9553C /* SSNSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 032CF19320999BAD00D9553C /* SSNSDK.framework */; };
+		032CF19720999BCA00D9553C /* NSUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF19620999BCA00D9553C /* NSUser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,9 @@
 		032CF1862099957700D9553C /* NSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMessage.m; sourceTree = "<group>"; };
 		032CF1872099957700D9553C /* NSMessageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMessageFactory.m; sourceTree = "<group>"; };
 		032CF1882099957700D9553C /* NSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMessage.h; sourceTree = "<group>"; };
+		032CF19320999BAD00D9553C /* SSNSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SSNSDK.framework; sourceTree = "<group>"; };
+		032CF19520999BC900D9553C /* NSUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSUser.h; sourceTree = "<group>"; };
+		032CF19620999BCA00D9553C /* NSUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSUser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				032CF19420999BAD00D9553C /* SSNSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +63,7 @@
 			children = (
 				032CF14F2099952B00D9553C /* SSIMMessage */,
 				032CF14E2099952B00D9553C /* Products */,
+				032CF19020999A9900D9553C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +78,8 @@
 		032CF14F2099952B00D9553C /* SSIMMessage */ = {
 			isa = PBXGroup;
 			children = (
+				032CF19520999BC900D9553C /* NSUser.h */,
+				032CF19620999BCA00D9553C /* NSUser.m */,
 				032CF1832099957700D9553C /* NSError.h */,
 				032CF1842099957700D9553C /* NSLoginMessage.h */,
 				032CF1852099957700D9553C /* NSLoginMessage.m */,
@@ -91,6 +100,14 @@
 				032CF15F2099952D00D9553C /* main.m */,
 			);
 			path = SSIMMessage;
+			sourceTree = "<group>";
+		};
+		032CF19020999A9900D9553C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				032CF19320999BAD00D9553C /* SSNSDK.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,6 +183,7 @@
 				032CF18B2099957700D9553C /* NSMessage.m in Sources */,
 				032CF1552099952B00D9553C /* ViewController.m in Sources */,
 				032CF1892099957700D9553C /* NSTextMessage.m in Sources */,
+				032CF19720999BCA00D9553C /* NSUser.m in Sources */,
 				032CF18C2099957700D9553C /* NSMessageFactory.m in Sources */,
 				032CF18A2099957700D9553C /* NSLoginMessage.m in Sources */,
 				032CF1602099952D00D9553C /* main.m in Sources */,
@@ -311,6 +329,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6LH8456STP;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = SSIMMessage/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -328,6 +350,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6LH8456STP;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = SSIMMessage/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

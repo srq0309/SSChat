@@ -1,0 +1,6 @@
+framework module SSNSDK {
+  umbrella header "SSNSDK.h"
+
+  export *
+  module * { export * }
+}
