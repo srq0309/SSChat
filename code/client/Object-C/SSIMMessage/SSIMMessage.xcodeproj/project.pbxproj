@@ -18,7 +18,7 @@
 		032CF18B2099957700D9553C /* NSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF1862099957700D9553C /* NSMessage.m */; };
 		032CF18C2099957700D9553C /* NSMessageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF1872099957700D9553C /* NSMessageFactory.m */; };
 		032CF19720999BCA00D9553C /* NSUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF19620999BCA00D9553C /* NSUser.m */; };
-		032CF239209C0B6300D9553C /* SSNSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 032CF238209C0B6300D9553C /* SSNSDK.framework */; };
+		032CF243209C2E7A00D9553C /* SSNSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 032CF242209C2E7A00D9553C /* SSNSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -54,8 +54,8 @@
 		032CF1882099957700D9553C /* NSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMessage.h; sourceTree = "<group>"; };
 		032CF19520999BC900D9553C /* NSUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSUser.h; sourceTree = "<group>"; };
 		032CF19620999BCA00D9553C /* NSUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSUser.m; sourceTree = "<group>"; };
-		032CF238209C0B6300D9553C /* SSNSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SSNSDK.framework; sourceTree = "<group>"; };
 		032CF23C209C2A2F00D9553C /* NSInstantMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSInstantMessage.h; sourceTree = "<group>"; };
+		032CF242209C2E7A00D9553C /* SSNSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SSNSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				032CF239209C0B6300D9553C /* SSNSDK.framework in Frameworks */,
+				032CF243209C2E7A00D9553C /* SSNSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +110,7 @@
 		032CF19020999A9900D9553C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				032CF238209C0B6300D9553C /* SSNSDK.framework */,
+				032CF242209C2E7A00D9553C /* SSNSDK.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
