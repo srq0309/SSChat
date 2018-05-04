@@ -11,7 +11,7 @@ static int self_Variable_Length = 72;
 
 @implementation NSInstantMessage
 -(NSString *)toString{
-    return [[super toString] stringByAppendingString:[NSString stringWithFormat:@"srcUserName:%@,disUserName:%@,msgLen:%d,msgType:%d,msgBuff:%@",_srcUserName,_disUserName,_msgLen,_msgType,_msgBuff]];
+    return [[super toString] stringByAppendingString:[NSString stringWithFormat:@"srcUserName:%@,disUserName:%@,msgLen:%d,msgType:%d,msgBuff:%@",_srcUserName,_disUserName,_msgLen,_msgType,[self resolveMsgBuff]]];
 }
 
 - (instancetype)init
@@ -88,5 +88,20 @@ static int self_Variable_Length = 72;
     [data appendBytes:&_msgLen length:4];
     [data appendData:_msgBuff];
     _msgData = data;
+}
+
+-(id)resolveMsgBuff{
+    id sender = _msgBuff;
+    switch (_msgType) {
+        case NSINSTANTMESSAGE_TYPE_TEXT:
+            sender = [NSDataUtil getStringByData:_msgBuff];
+            break;
+        case NSINSTANTMESSAGE_TYPE_IMAGE:
+            sender = [UIImage imageWithData:_msgBuff];
+            break;
+        default:
+            break;
+    }
+    return sender;
 }
 @end

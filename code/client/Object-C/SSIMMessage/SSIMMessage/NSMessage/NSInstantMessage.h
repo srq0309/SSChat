@@ -16,4 +16,6 @@
 @property (nonatomic,assign)int32_t msgType;
 @property (nonatomic,assign,readonly)int32_t msgLen;
 @property (nonatomic,strong) NSData* msgBuff;
+
+-(id)resolveMsgBuff;
 @end

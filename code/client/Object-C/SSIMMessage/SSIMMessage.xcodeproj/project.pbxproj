@@ -18,8 +18,32 @@
 		032CF18B2099957700D9553C /* NSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF1862099957700D9553C /* NSMessage.m */; };
 		032CF18C2099957700D9553C /* NSMessageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF1872099957700D9553C /* NSMessageFactory.m */; };
 		032CF19720999BCA00D9553C /* NSUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF19620999BCA00D9553C /* NSUser.m */; };
-		032CF243209C2E7A00D9553C /* SSNSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 032CF242209C2E7A00D9553C /* SSNSDK.framework */; };
+		032CF252209C3A3500D9553C /* SSNSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 032CF24A209C3A0900D9553C /* SSNSDK.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		032CF249209C3A0900D9553C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 032CF244209C3A0900D9553C /* SSNSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 032CF0CA2099600C00D9553C;
+			remoteInfo = SSNSDK;
+		};
+		032CF24B209C3A0900D9553C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 032CF244209C3A0900D9553C /* SSNSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 032CF0D32099600C00D9553C;
+			remoteInfo = SSNSDKTests;
+		};
+		032CF24E209C3A3000D9553C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 032CF244209C3A0900D9553C /* SSNSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 032CF0C92099600C00D9553C;
+			remoteInfo = SSNSDK;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		032CF229209B2D7400D9553C /* CopyFiles */ = {
@@ -55,7 +79,7 @@
 		032CF19520999BC900D9553C /* NSUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSUser.h; sourceTree = "<group>"; };
 		032CF19620999BCA00D9553C /* NSUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSUser.m; sourceTree = "<group>"; };
 		032CF23C209C2A2F00D9553C /* NSInstantMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSInstantMessage.h; sourceTree = "<group>"; };
-		032CF242209C2E7A00D9553C /* SSNSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SSNSDK.framework; sourceTree = "<group>"; };
+		032CF244209C3A0900D9553C /* SSNSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SSNSDK.xcodeproj; path = "../../../../../../SSFormWork/code/Object-C/SSNSDK/SSNSDK.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				032CF243209C2E7A00D9553C /* SSNSDK.framework in Frameworks */,
+				032CF252209C3A3500D9553C /* SSNSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +114,7 @@
 		032CF14F2099952B00D9553C /* SSIMMessage */ = {
 			isa = PBXGroup;
 			children = (
+				032CF244209C3A0900D9553C /* SSNSDK.xcodeproj */,
 				032CF23F209C2A9200D9553C /* Commen */,
 				032CF23E209C2A7200D9553C /* NSMessage */,
 				032CF19520999BC900D9553C /* NSUser.h */,
@@ -110,7 +135,6 @@
 		032CF19020999A9900D9553C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				032CF242209C2E7A00D9553C /* SSNSDK.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -138,6 +162,15 @@
 			path = Commen;
 			sourceTree = "<group>";
 		};
+		032CF245209C3A0900D9553C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				032CF24A209C3A0900D9553C /* SSNSDK.framework */,
+				032CF24C209C3A0900D9553C /* SSNSDKTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -153,6 +186,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				032CF24F209C3A3000D9553C /* PBXTargetDependency */,
 			);
 			name = SSIMMessage;
 			productName = SSIMMessage;
@@ -184,12 +218,35 @@
 			mainGroup = 032CF1442099952B00D9553C;
 			productRefGroup = 032CF14E2099952B00D9553C /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 032CF245209C3A0900D9553C /* Products */;
+					ProjectRef = 032CF244209C3A0900D9553C /* SSNSDK.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				032CF14C2099952B00D9553C /* SSIMMessage */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		032CF24A209C3A0900D9553C /* SSNSDK.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SSNSDK.framework;
+			remoteRef = 032CF249209C3A0900D9553C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		032CF24C209C3A0900D9553C /* SSNSDKTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SSNSDKTests.xctest;
+			remoteRef = 032CF24B209C3A0900D9553C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		032CF14B2099952B00D9553C /* Resources */ = {
@@ -221,6 +278,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		032CF24F209C3A3000D9553C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SSNSDK;
+			targetProxy = 032CF24E209C3A3000D9553C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		032CF1562099952B00D9553C /* Main.storyboard */ = {
