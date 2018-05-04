@@ -7,13 +7,18 @@
 //
 #import <Foundation/Foundation.h>
 #import <SSNSDK/NSDataUtil.h>
+
+#define NSMESSAGE_TYPE_LOGIN 0x00000001
+#define NSMESSAGE_TYPE_INSTANT 0x00000002
+
 @interface NSMessage : NSObject{
-    NSData * msgData;
+    NSData * _overflowMsgData,*_msgData;
 }
 @property (nonatomic,assign) int32_t subType;
 @property (nonatomic,assign) int32_t msgError;
 @property (nonatomic,assign) int32_t srcUserRefid;
 @property (nonatomic,assign) int32_t disUserRefid;
+
 -(instancetype)initWithMessage:(NSMessage *)message;
 -(instancetype)initWithData:(NSData *)data;
 -(NSData *)getMessageData;

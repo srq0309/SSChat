@@ -6,7 +6,7 @@
 //  Copyright © 2018年 阿杰. All rights reserved.
 //
 #import "NSMessage.h"
-#import "NSTextMessage.h"
+#import "NSInstantMessage.h"
 #import "NSLoginMessage.h"
 #import "NSMessageFactory.h"
 #import <SSNSDK/SSNSDK.h>
@@ -51,32 +51,35 @@
 }
 - (IBAction)sendMessage:(id)sender {
     NSMessage * message = [[NSMessage alloc]init];
+    message.subType = -3;
+    message.msgError = -6;
+    message.srcUserRefid = -9;
+    message.disUserRefid = -2345;
     NSLog(@"%@",message.toString);
     NSData * data =  [message getMessageData];
-    [manager sendMessage:data];
-    
     //test
     NSLog(@"%@",[[NSMessage alloc]initWithMessage:message].toString);
     NSLog(@"%@",[[NSMessage alloc]initWithData:data].toString);
     NSLog(@"----–––-------------------------------------");
-    NSTextMessage * text = [[NSTextMessage alloc]init];
+    message.subType = 0x000000002;
+    NSInstantMessage * text = [[NSInstantMessage alloc]initWithMessage:message];
     text.srcUserName = @"abc";
     text.disUserName = @"abc";
     text.msgType = 1;
-    text.msgLen = 5000;
-    text.msgBuff = [@"我们好" dataUsingEncoding:NSUTF8StringEncoding];
+    text.msgBuff = [NSDataUtil createDataByString:@"我们好jlkasjdl实打实大师大法。 salad。     dasd 啊"];
     NSData * textData = [text getMessageData];
     NSLog(@"%@",text.toString);
-    NSLog(@"%@",[[NSMessage alloc]initWithMessage:text].toString);
-    NSLog(@"%@",[[NSMessage alloc]initWithData:textData].toString);
+    NSLog(@"%@",[[[NSInstantMessage alloc]initWithMessage:text] toString]);
+    NSInstantMessage * message1 = [[NSInstantMessage alloc]initWithData:textData];
+    NSLog(@"%@",[message1 toString]);
     NSLog(@"----–––-------------------------------------");
     NSLoginMessage * login = [[NSLoginMessage alloc]init];
     login.userName = @"wenjie";
     login.passWard = @"23456";
     NSData * loginData = [login getMessageData];
     NSLog(@"%@",login.toString);
-    NSLog(@"%@",[[NSMessage alloc]initWithMessage:login].toString);
-    NSLog(@"%@",[[NSMessage alloc]initWithData:loginData].toString);
+    NSLog(@"%@",[[NSLoginMessage alloc]initWithMessage:login].toString);
+    NSLog(@"%@",[[NSLoginMessage alloc]initWithData:loginData].toString);
     
     NSUser * user = [[NSUser alloc]init];
     user.userName = @"345";
@@ -91,7 +94,7 @@
     NSLog(@"%@",messages);
     NSMessageFactory * factory = [[NSMessageFactory alloc]init];
     [factory registMessageWithClass:NSLoginMessage.class andSubType:0x00000001];
-    [factory registMessageWithClass:NSTextMessage.class andSubType:0x00000002];
+    [factory registMessageWithClass:NSInstantMessage.class andSubType:0x00000002];
     NSMessage * message = [factory createMessageByData:messages];
     NSLog(@"%@",message.toString);
 }

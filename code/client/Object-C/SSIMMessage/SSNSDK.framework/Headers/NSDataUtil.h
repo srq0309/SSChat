@@ -10,9 +10,11 @@
 #import <UIKit/UIKit.h>
 @interface NSDataUtil : NSObject
 +(NSData *)createDataByString:(NSString*)string;
++(NSData *)createDataByString:(NSString*)string andLength:(NSInteger)len;
 +(NSData *)createDataByPNG:(UIImage*)image;
 +(NSData *)createDataByJPG:(UIImage*)image;
 +(NSData *)createDataByFile:(NSString*)filePath;
 +(NSData *)createDataByInt32:(int32_t)number;
 +(int32_t)getInt32ByData:(NSData *)data;
++(NSString *)getStringByData:(NSData *)data;
 @end

@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "NSMessage.h"
-@interface NSTextMessage : NSMessage
+#define NSINSTANTMESSAGE_TYPE_TEXT 1
+#define NSINSTANTMESSAGE_TYPE_IMAGE 2
+@interface NSInstantMessage : NSMessage
 @property (nonatomic,copy)NSString * srcUserName;
 @property (nonatomic,copy)NSString * disUserName;
 @property (nonatomic,assign)int32_t msgType;
-@property (nonatomic,assign)int32_t msgLen;
-@property (nonatomic,assign)NSData* msgBuff;
+@property (nonatomic,assign,readonly)int32_t msgLen;
+@property (nonatomic,strong) NSData* msgBuff;
 @end

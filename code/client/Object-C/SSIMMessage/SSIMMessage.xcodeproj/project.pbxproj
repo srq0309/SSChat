@@ -13,13 +13,25 @@
 		032CF15A2099952D00D9553C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 032CF1592099952D00D9553C /* Assets.xcassets */; };
 		032CF15D2099952D00D9553C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 032CF15B2099952D00D9553C /* LaunchScreen.storyboard */; };
 		032CF1602099952D00D9553C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF15F2099952D00D9553C /* main.m */; };
-		032CF1892099957700D9553C /* NSTextMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF1802099957600D9553C /* NSTextMessage.m */; };
+		032CF1892099957700D9553C /* NSInstantMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF1802099957600D9553C /* NSInstantMessage.m */; };
 		032CF18A2099957700D9553C /* NSLoginMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF1852099957700D9553C /* NSLoginMessage.m */; };
 		032CF18B2099957700D9553C /* NSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF1862099957700D9553C /* NSMessage.m */; };
 		032CF18C2099957700D9553C /* NSMessageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF1872099957700D9553C /* NSMessageFactory.m */; };
-		032CF19420999BAD00D9553C /* SSNSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 032CF19320999BAD00D9553C /* SSNSDK.framework */; };
 		032CF19720999BCA00D9553C /* NSUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 032CF19620999BCA00D9553C /* NSUser.m */; };
+		032CF239209C0B6300D9553C /* SSNSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 032CF238209C0B6300D9553C /* SSNSDK.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		032CF229209B2D7400D9553C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		032CF14D2099952B00D9553C /* SSIMMessage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SSIMMessage.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -32,8 +44,7 @@
 		032CF15C2099952D00D9553C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		032CF15E2099952D00D9553C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		032CF15F2099952D00D9553C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		032CF1802099957600D9553C /* NSTextMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSTextMessage.m; sourceTree = "<group>"; };
-		032CF1812099957700D9553C /* NSTextMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSTextMessage.h; sourceTree = "<group>"; };
+		032CF1802099957600D9553C /* NSInstantMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSInstantMessage.m; sourceTree = "<group>"; };
 		032CF1822099957700D9553C /* NSMessageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMessageFactory.h; sourceTree = "<group>"; };
 		032CF1832099957700D9553C /* NSError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSError.h; sourceTree = "<group>"; };
 		032CF1842099957700D9553C /* NSLoginMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSLoginMessage.h; sourceTree = "<group>"; };
@@ -41,9 +52,10 @@
 		032CF1862099957700D9553C /* NSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMessage.m; sourceTree = "<group>"; };
 		032CF1872099957700D9553C /* NSMessageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMessageFactory.m; sourceTree = "<group>"; };
 		032CF1882099957700D9553C /* NSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMessage.h; sourceTree = "<group>"; };
-		032CF19320999BAD00D9553C /* SSNSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SSNSDK.framework; sourceTree = "<group>"; };
 		032CF19520999BC900D9553C /* NSUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSUser.h; sourceTree = "<group>"; };
 		032CF19620999BCA00D9553C /* NSUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSUser.m; sourceTree = "<group>"; };
+		032CF238209C0B6300D9553C /* SSNSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SSNSDK.framework; sourceTree = "<group>"; };
+		032CF23C209C2A2F00D9553C /* NSInstantMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSInstantMessage.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				032CF19420999BAD00D9553C /* SSNSDK.framework in Frameworks */,
+				032CF239209C0B6300D9553C /* SSNSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,17 +90,10 @@
 		032CF14F2099952B00D9553C /* SSIMMessage */ = {
 			isa = PBXGroup;
 			children = (
+				032CF23F209C2A9200D9553C /* Commen */,
+				032CF23E209C2A7200D9553C /* NSMessage */,
 				032CF19520999BC900D9553C /* NSUser.h */,
 				032CF19620999BCA00D9553C /* NSUser.m */,
-				032CF1832099957700D9553C /* NSError.h */,
-				032CF1842099957700D9553C /* NSLoginMessage.h */,
-				032CF1852099957700D9553C /* NSLoginMessage.m */,
-				032CF1882099957700D9553C /* NSMessage.h */,
-				032CF1862099957700D9553C /* NSMessage.m */,
-				032CF1822099957700D9553C /* NSMessageFactory.h */,
-				032CF1872099957700D9553C /* NSMessageFactory.m */,
-				032CF1812099957700D9553C /* NSTextMessage.h */,
-				032CF1802099957600D9553C /* NSTextMessage.m */,
 				032CF1502099952B00D9553C /* AppDelegate.h */,
 				032CF1512099952B00D9553C /* AppDelegate.m */,
 				032CF1532099952B00D9553C /* ViewController.h */,
@@ -105,9 +110,32 @@
 		032CF19020999A9900D9553C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				032CF19320999BAD00D9553C /* SSNSDK.framework */,
+				032CF238209C0B6300D9553C /* SSNSDK.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		032CF23E209C2A7200D9553C /* NSMessage */ = {
+			isa = PBXGroup;
+			children = (
+				032CF1842099957700D9553C /* NSLoginMessage.h */,
+				032CF1852099957700D9553C /* NSLoginMessage.m */,
+				032CF1882099957700D9553C /* NSMessage.h */,
+				032CF1862099957700D9553C /* NSMessage.m */,
+				032CF1822099957700D9553C /* NSMessageFactory.h */,
+				032CF1872099957700D9553C /* NSMessageFactory.m */,
+				032CF23C209C2A2F00D9553C /* NSInstantMessage.h */,
+				032CF1802099957600D9553C /* NSInstantMessage.m */,
+			);
+			path = NSMessage;
+			sourceTree = "<group>";
+		};
+		032CF23F209C2A9200D9553C /* Commen */ = {
+			isa = PBXGroup;
+			children = (
+				032CF1832099957700D9553C /* NSError.h */,
+			);
+			path = Commen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,6 +148,7 @@
 				032CF1492099952B00D9553C /* Sources */,
 				032CF14A2099952B00D9553C /* Frameworks */,
 				032CF14B2099952B00D9553C /* Resources */,
+				032CF229209B2D7400D9553C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -182,7 +211,7 @@
 			files = (
 				032CF18B2099957700D9553C /* NSMessage.m in Sources */,
 				032CF1552099952B00D9553C /* ViewController.m in Sources */,
-				032CF1892099957700D9553C /* NSTextMessage.m in Sources */,
+				032CF1892099957700D9553C /* NSInstantMessage.m in Sources */,
 				032CF19720999BCA00D9553C /* NSUser.m in Sources */,
 				032CF18C2099957700D9553C /* NSMessageFactory.m in Sources */,
 				032CF18A2099957700D9553C /* NSLoginMessage.m in Sources */,
@@ -329,6 +358,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6LH8456STP;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -339,6 +369,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jie.SSIMMessage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -351,6 +383,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6LH8456STP;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -361,6 +394,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jie.SSIMMessage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

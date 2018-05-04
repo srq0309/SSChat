@@ -13,7 +13,7 @@ static int self_Variable_Length = 16;
 @implementation NSMessage
 
 -(void)setMessageData:(NSData *)data{
-    if (data.length <self_Variable_Length) {
+    if (!data || data.length <self_Variable_Length) {
         return;
     }
     NSData * subTypeData = [data subdataWithRange:NSMakeRange(0, 4)];
@@ -24,20 +24,23 @@ static int self_Variable_Length = 16;
     _msgError = [NSDataUtil getInt32ByData:msgErrData];
     _srcUserRefid = [NSDataUtil getInt32ByData:srcUserRefidData];
     _disUserRefid = [NSDataUtil getInt32ByData:disUserRefidData];
-    msgData = [data subdataWithRange:NSMakeRange(self_Variable_Length, data.length - self_Variable_Length)];
+    _overflowMsgData = [data subdataWithRange:NSMakeRange(self_Variable_Length, data.length - self_Variable_Length)];
+    _msgData = [NSData data];
 }
 
 -(NSData *)getMessageData{
+    [self reSetMsgData];
     NSMutableData * data = [NSMutableData data];
     [data appendData:[NSDataUtil createDataByInt32:_subType]];
     [data appendData:[NSDataUtil createDataByInt32:_msgError]];
     [data appendData:[NSDataUtil createDataByInt32:_srcUserRefid]];
     [data appendData:[NSDataUtil createDataByInt32:_disUserRefid]];
-    [data appendData:msgData];
+    [data appendData:_msgData];
+    [data appendData:_overflowMsgData];
     return data;
 }
 -(NSString *)toString{
-    return [NSString stringWithFormat:@"Message ={subtype:%d,err:%d,src:%d,dst:%d,msgData:%@",self.subType,self.msgError,self.srcUserRefid,self.disUserRefid,msgData];
+    return [NSString stringWithFormat:@"Message ={subtype:%d,err:%d,src:%d,dst:%d",self.subType,self.msgError,self.srcUserRefid,self.disUserRefid];
 }
 
 - (instancetype)init
@@ -45,31 +48,31 @@ static int self_Variable_Length = 16;
     self = [super init];
     if (self) {
         self.subType = 0;
-        self.msgError = ERROR_MESSAGE_OTHER;
+        self.msgError = NSERROR_MESSAGE_OTHER;
         self.srcUserRefid = 0;
         self.disUserRefid = 0;
-        msgData = [NSData data];
+        _msgData = [NSData data];
+        _overflowMsgData = [NSData data];
     }
     return self;
 }
 - (instancetype)initWithMessage:(NSMessage *)message{
+    self = [self init];
     if (message) {
-        self = [[NSMessage alloc]initWithData:[message getMessageData]];
-    }else{
-        self = [[NSMessage alloc]init];
+        [self setMessageData:message.getMessageData];
     }
     return self;
 }
 
 -(instancetype)initWithData:(NSData *)data{
-    self = [super init];
+    self = [self init];
     if (self) {
         [self setMessageData:data];
     }
     return self;
 }
 - (void)reSetMsgData{
-    msgData = [NSMutableData data];
+    _msgData = [NSMutableData data];
 }
 
 
