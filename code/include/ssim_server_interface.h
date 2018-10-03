@@ -12,6 +12,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <vector>
 
 #include <ssimdef.h>
 
@@ -38,24 +39,28 @@ namespace ssim
     SSIM_API network_interface *create_network_interface();
     SSIM_API void destory_network_interface(network_interface *network);
 
+    // 会话关联数据
+    struct session_data
+    {
+        uint64_t session_id_;
+        std::shared_ptr<std::vector<uint8_t>> p_data_;
+    };
     // 数据分发层接口
     class msg_route_interface
     {
     public:
-        virtual void push_msg_send_queue() = 0;
-        virtual void pop_msg_send_queue() = 0;
-
-        virtual void push_msg_recv_queue() = 0;
+        virtual void push_msg_recv_queue(session_data data) = 0;
         virtual void pop_msg_recv_queue() = 0;
 
-        virtual void push_msg_persistent_queue() = 0;
+        virtual void push_msg_send_queue() = 0;
+        virtual session_data pop_msg_send_queue() = 0;
+
+        virtual void push_msg_persistent_queue(std::shared_ptr<std::vector<uint8_t>> p_data) = 0;
         virtual void pop_msg_persistent_queue() = 0;
 
         virtual void insert_session() = 0;
         virtual void remove_session() = 0;
         virtual void is_active_session() = 0;
-
-        virtual void append_log();
     };
 
     // 数据处理层接口

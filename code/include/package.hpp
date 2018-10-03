@@ -17,7 +17,7 @@
 template<typename _Ty>
 void unpack(std::vector<uint8_t>& data, size_t dis, _Ty& val)
 {
-    assert(dis + sizeof(val) < data.size());
+    assert(dis + sizeof(val) <= data.size());
     memcpy(&val, &data[dis], sizeof(val));
 }
 
@@ -25,8 +25,18 @@ void unpack(std::vector<uint8_t>& data, size_t dis, _Ty& val)
 template<typename _Ty>
 void unpack(uint8_t *data, size_t len, size_t dis, _Ty& val)
 {
-    assert(dis + sizeof(val) < len);
+    assert(dis + sizeof(val) <= len);
     memcpy(&val, data + dis, sizeof(val));
+}
+
+// 打包数据
+template<typename _Ty>
+void pack(std::vector<uint8_t>& data, size_t dis, _Ty& val)
+{
+    if (data.size() < dis + sizeof(val)) {
+        data.resize(dis + sizeof(val));
+    }
+    memcpy(&data[dis], &val, sizeof(val));
 }
 
 #endif	// PACKAGE_HPP_

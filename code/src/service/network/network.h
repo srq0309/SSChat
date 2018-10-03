@@ -20,8 +20,8 @@
 #include <asio/ts/internet.hpp>
 
 #include "ssim_server_interface.h"
+#include "session.h"
 
-class session;
 using asio::ip::tcp;
 
 namespace ssim
@@ -37,9 +37,23 @@ namespace ssim
 
         virtual void run() override;
 
+        // 压入数据至数据接收队列
+        void push_msg_recv_queue(session_data data);
+
+        // 取数据发送队列的数据
+        session_data pop_msg_send_queue();
+
+        // 压入数据持久队列数据
+        void push_msg_persistent_queue(std::shared_ptr<std::vector<uint8_t>> p_data);
+
     private:
         // 开始接收事件循环
         void do_accept();
+
+        // 启动session_data发送循环
+        void start_send_data();
+
+        std::atomic<bool> start_send_;
 
         std::shared_ptr<asio::io_context> ioc_;
         std::shared_ptr<tcp::acceptor> acc_;
@@ -48,7 +62,10 @@ namespace ssim
         uint64_t create_session_id();
         std::atomic<uint64_t> session_id_;
 
-        std::map<int64_t, std::shared_ptr<session>> sess_;
+        std::map<int64_t, std::weak_ptr<session>> sess_;
+
+        // 数据分发层接口
+        std::shared_ptr<msg_route_interface> msg_route_;
     };
 }
 

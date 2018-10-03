@@ -34,12 +34,19 @@ namespace ssim
 
         void start();
 
+        // 写消息正文
+        void do_write_msg(std::shared_ptr<std::vector<uint8_t>> p_data);
+
     private:
         // 读ssn头部
         void do_read_ssn_header();
 
         // 读ssim正文
         void do_read_ssim(size_t length);
+
+        void do_write_ssn_header(std::shared_ptr<std::vector<uint8_t>> p_data);
+
+        void do_write_ssim(std::shared_ptr<std::vector<uint8_t>> p_data);
 
         uint64_t session_id_;
 

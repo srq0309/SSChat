@@ -18,10 +18,10 @@ namespace ssim
      */
     struct SSN_header
     {
-        int32_t magic_;         // 校验头
-        int16_t length_;        // 报文总长
-        int8_t type_;           // 消息类别号
-        int8_t version_;        // 消息版本号
+        uint32_t magic_;         // 校验头
+        uint16_t length_;        // 报文总长
+        uint8_t type_;           // 消息类别号
+        uint8_t version_;        // 消息版本号
     };
     constexpr size_t ssn_header_len = sizeof(SSN_header);
 
@@ -30,9 +30,9 @@ namespace ssim
      */
     struct SSIM_header
     {
-        int32_t subtype_;       // 子类别
-        int32_t errno_;         // 错误码
-        int64_t refid_;         // 用户回话标识
+        uint32_t subtype_;       // 子类别
+        uint32_t errno_;         // 错误码
+        uint64_t refid_;         // 用户回话标识
     };
 
     /*!
