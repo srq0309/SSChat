@@ -1,4 +1,4 @@
-file(GLOB MSG_PERSISTENT_SRC
+﻿file(GLOB MSG_PERSISTENT_SRC
     ../../../include/ssimdef.h
     ../../../include/ssim_server_interface.h
 
@@ -6,4 +6,5 @@ file(GLOB MSG_PERSISTENT_SRC
     msg_persistent.cpp
 )
 
+add_definitions(-DSSIM_EXPORTS)
 add_library(ssim_msg_persistent SHARED ${MSG_PERSISTENT_SRC})

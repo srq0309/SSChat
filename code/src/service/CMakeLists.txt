@@ -32,3 +32,9 @@ file(GLOB SERVER_SRC
     ../../include/ssim_server_interface.h
 )
 add_executable(SSChat-server ${SERVER_SRC})
+target_link_libraries(SSChat-server
+	ssim_network
+	#ssim_msg_route
+	#ssim_msg_process
+	#ssim_msg_persistent
+)

@@ -1,59 +1,75 @@
+ï»¿#ifndef SSIM_SERVER_INTERFACE_H_
+#define SSIM_SERVER_INTERFACE_H_
+
 /*!
  * @file	ssim_server_interface.h
  *
  * @author	skiller
  * @date	2018-10-01
  *
- * @brief	¶¨ÒåÄ£¿é½Ó¿Ú
+ * @brief	å®šä¹‰æ¨¡å—æ¥å£
  */
 
 #include <cstdint>
+#include <memory>
 
 #include <ssimdef.h>
+
+#ifdef SSIM_EXPORTS
+# define SSIM_API __declspec(dllexport)
+#else
+# define SSIM_API __declspec(dllimport)
+#endif
 
 namespace ssim
 {
 
-    // ÍøÂç½»»¥²ã½Ó¿Ú
-    class NetworkInterface
+    // ç½‘ç»œäº¤äº’å±‚æ¥å£
+    class network_interface
     {
     public:
-        // ³õÊ¼»¯¶Ë¿ÚºÍ¹¤×÷Ïß³ÌÊı
-        virtual void Init(uint16_t port = 9301, int therad_num = 1) = 0;
+        // åˆå§‹åŒ–ç«¯å£å’Œå·¥ä½œçº¿ç¨‹æ•°ï¼Œå»ºè®®å•çº¿ç¨‹ï¼Œæ­¤æ¨¡å—åªæ¶‰åŠç½‘ç»œioæ“ä½œ
+        virtual void init(uint16_t port = 9301, int therad_num = 1) = 0;
 
-        // ¿ªÊ¼·şÎñ
-        virtual void Run() = 0;
+        // å¼€å§‹æœåŠ¡
+        virtual void run() = 0;
 
     };
+    SSIM_API network_interface *create_network_interface();
+    SSIM_API void destory_network_interface(network_interface *network);
 
-    // Êı¾İ·Ö·¢²ã½Ó¿Ú
-    class MsgRouteInterface
+    // æ•°æ®åˆ†å‘å±‚æ¥å£
+    class msg_route_interface
     {
     public:
-        virtual void PushMsgSendQueue() = 0;
-        virtual void PopMsgSendQueue() = 0;
+        virtual void push_msg_send_queue() = 0;
+        virtual void pop_msg_send_queue() = 0;
 
-        virtual void PushMsgRecvQueue() = 0;
-        virtual void PopMsgSendQueue() = 0;
+        virtual void push_msg_recv_queue() = 0;
+        virtual void pop_msg_recv_queue() = 0;
 
-        virtual void PushMsgPersistentQueue() = 0;
-        virtual void PopMsgPersistentQueue() = 0;
+        virtual void push_msg_persistent_queue() = 0;
+        virtual void pop_msg_persistent_queue() = 0;
 
-        virtual void InsertSession() = 0;
-        virtual void RemoveSession() = 0;
-        virtual void IsActiveSession() = 0;
+        virtual void insert_session() = 0;
+        virtual void remove_session() = 0;
+        virtual void is_active_session() = 0;
+
+        virtual void append_log();
     };
 
-    // Êı¾İ´¦Àí²ã½Ó¿Ú
-    class MsgProcessInterface
+    // æ•°æ®å¤„ç†å±‚æ¥å£
+    class msg_process_interface
     {
 
     };
 
-    // Êı¾İ³Ö¾Ã²ã½Ó¿Ú
-    class MsgPersistentInterface
+    // æ•°æ®æŒä¹…å±‚æ¥å£
+    class msg_persistent_interface
     {
 
     };
 
 }
+
+#endif	// SSIM_SERVER_INTERFACE_H_

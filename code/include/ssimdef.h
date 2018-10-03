@@ -12,7 +12,7 @@
 
 namespace ssim
 {
-
+    
     /*!
      * @brief	SSN头部
      */
@@ -23,6 +23,7 @@ namespace ssim
         int8_t type_;           // 消息类别号
         int8_t version_;        // 消息版本号
     };
+    constexpr size_t ssn_header_len = sizeof(SSN_header);
 
     /*!
      * @brief	SSIM头部

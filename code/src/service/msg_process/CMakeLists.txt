@@ -1,4 +1,4 @@
-file(GLOB MSG_PROCESS_SRC
+﻿file(GLOB MSG_PROCESS_SRC
     ../../../include/ssimdef.h
     ../../../include/ssim_server_interface.h
 
@@ -6,4 +6,5 @@ file(GLOB MSG_PROCESS_SRC
     msg_process.cpp
 )
 
+add_definitions(-DSSIM_EXPORTS)
 add_library(ssim_msg_process SHARED ${MSG_PROCESS_SRC})
