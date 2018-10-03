@@ -4,7 +4,7 @@
 /*!
  * @file	network.h
  *
- * @author	skiller
+ * @author	梦丿无情
  * @date	2018-10-01
  *
  * @brief	定义实际的网络接口层

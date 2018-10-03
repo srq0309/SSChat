@@ -4,7 +4,7 @@
 /*!
  * @file	ts_queue.hpp
  *
- * @author	skiller
+ * @author	梦丿无情
  * @date	2018-8-29
  *
  * @brief   基于链表和互斥锁的线程安全队列

@@ -4,7 +4,7 @@
 /*!
  * @file	ssimdef.h
  *
- * @author	skiller
+ * @author	梦丿无情
  * @date	2018-09-28
  *
  * @brief	定义协议相关结构

@@ -4,7 +4,7 @@
 /*!
  * @file	session.h
  *
- * @author	skiller
+ * @author	梦丿无情
  * @date	2018-10-01
  *
  * @brief	基于asio的会话组件

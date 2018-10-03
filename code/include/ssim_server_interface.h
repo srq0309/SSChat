@@ -4,7 +4,7 @@
 /*!
  * @file	ssim_server_interface.h
  *
- * @author	skiller
+ * @author	梦丿无情
  * @date	2018-10-01
  *
  * @brief	定义模块接口
