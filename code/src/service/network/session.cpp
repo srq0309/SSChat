@@ -90,7 +90,7 @@ void ssim::session::do_read_ssim(size_t length)
     auto self(shared_from_this());
 
     if (0 == length) {
-        // 继续接受数据
+        // 继续接收数据
         do_read_ssn_header();
         return;
     }
@@ -103,7 +103,7 @@ void ssim::session::do_read_ssim(size_t length)
             assert(read_length == length);
             // 压入数据分发层接收数据队列
             msg_net_->push_msg_recv_queue({ session_id_, pData });
-            // 继续接受数据
+            // 继续接收数据
             do_read_ssn_header();
         } else {    // 【终止会话】6
             end_code_ = 6;

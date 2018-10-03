@@ -50,17 +50,13 @@ namespace ssim
     {
     public:
         virtual void push_msg_recv_queue(session_data data) = 0;
-        virtual void pop_msg_recv_queue() = 0;
+        virtual session_data pop_msg_recv_queue() = 0;
 
-        virtual void push_msg_send_queue() = 0;
+        virtual void push_msg_send_queue(session_data data) = 0;
         virtual session_data pop_msg_send_queue() = 0;
 
         virtual void push_msg_persistent_queue(std::shared_ptr<std::vector<uint8_t>> p_data) = 0;
-        virtual void pop_msg_persistent_queue() = 0;
-
-        virtual void insert_session() = 0;
-        virtual void remove_session() = 0;
-        virtual void is_active_session() = 0;
+        virtual std::shared_ptr<std::vector<uint8_t>> pop_msg_persistent_queue() = 0;
     };
 
     // 数据处理层接口

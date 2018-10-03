@@ -43,9 +43,10 @@ inline void ssim::network::start_send_data()
 {
     while (start_send_.load()) {
         auto ret = pop_msg_send_queue();
-        if (!ret.p_data_) {
-            continue;
-        }
+
+        // msg_route接口保证数据存在
+        assert(ret.p_data_);
+
         auto iter = sess_.find(ret.session_id_);
         if (sess_.end() != iter) {
             std::shared_ptr<session> sess = iter->second.lock();
