@@ -10,6 +10,8 @@
  * @brief	定义协议相关结构
  */
 
+#include <cstdint>
+
 namespace ssim
 {
     

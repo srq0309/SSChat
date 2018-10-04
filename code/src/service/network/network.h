@@ -33,7 +33,7 @@ namespace ssim
     public:
         network();
 
-        virtual void init(uint16_t port = 9301, int therad_num = 1) override;
+        virtual void init(std::shared_ptr<msg_route_interface> msg_route, uint16_t port = 9301, int therad_num = 1) override;
 
         virtual void run() override;
 

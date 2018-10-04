@@ -25,20 +25,6 @@
 namespace ssim
 {
 
-    // 网络交互层接口
-    class network_interface
-    {
-    public:
-        // 初始化端口和工作线程数，建议单线程，此模块只涉及网络io操作
-        virtual void init(uint16_t port = 9301, int therad_num = 1) = 0;
-
-        // 开始服务
-        virtual void run() = 0;
-
-    };
-    SSIM_API network_interface *create_network_interface();
-    SSIM_API void destory_network_interface(network_interface *network);
-
     // 会话关联数据
     struct session_data
     {
@@ -58,18 +44,65 @@ namespace ssim
         virtual void push_msg_persistent_queue(std::shared_ptr<std::vector<uint8_t>> p_data) = 0;
         virtual std::shared_ptr<std::vector<uint8_t>> pop_msg_persistent_queue() = 0;
     };
-
-    // 数据处理层接口
-    class msg_process_interface
-    {
-
-    };
+    SSIM_API std::shared_ptr<msg_route_interface> create_msg_route_interface();
 
     // 数据持久层接口
     class msg_persistent_interface
     {
+    public:
+        // 检查密码
+        virtual bool check_user_passwd(const char *user, const char *passwd) = 0;
+
+        // 更改密码
+        virtual bool change_passwd_x4(const char *user, const char *newpasswd,
+            const char *oldpasswd) = 0;
+        // 更改密码
+        virtual bool change_passwd_x5(const char *user, const char *newpasswd,
+            const char *question, const char *answer) = 0;
+
+
+        // 注册一个用户
+        virtual int regist_user(const char *user, const char *passwd,
+            const char *question, const char *answer) = 0;
+
+        // 持久化离线消息，用户名为目标用户名
+        virtual void persist_msg(const char *user_id,
+            std::shared_ptr<std::vector<uint8_t>> p_data) = 0;
+
+        // 获取某个用户的一条离线数据
+        virtual std::shared_ptr<std::vector<uint8_t>> get_user_msg(const char *user) = 0;
+    };
+    SSIM_API std::shared_ptr<msg_persistent_interface> create_msg_persistent_interface();
+
+    // 网络交互层接口
+    class network_interface
+    {
+        // 本模块涉及thread_num+1个线程，具体是asio工作线程（处理网络）和一个取待发送数据的线程（处理发送队列）
+    public:
+        // 初始化端口和工作线程数，建议单线程，此模块只涉及网络io操作
+        virtual void init(std::shared_ptr<msg_route_interface> msg_route, uint16_t port = 9301, int therad_num = 1) = 0;
+
+        // 开始服务
+        virtual void run() = 0;
 
     };
+    SSIM_API std::shared_ptr<network_interface> create_network_interface();
+
+    // 数据处理层接口
+    class msg_process_interface
+    {
+        // 本模块涉及thread_num+1个线程，具体是处理数据的工作线程（处理接收队列）和一个处理持久化队列的线程（处理持久化队列）
+    public:
+        // 初始化
+        virtual void init(std::shared_ptr<msg_route_interface> msg_route,
+            std::shared_ptr<msg_persistent_interface> msg_persistent,
+            int thread_num) = 0;
+
+        // 启动工作线程
+        virtual void run() = 0;
+
+    };
+    SSIM_API std::shared_ptr<msg_process_interface> create_msg_process_interface();
 
 }
 

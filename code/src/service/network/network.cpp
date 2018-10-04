@@ -7,8 +7,10 @@ ssim::network::network() :
 {
 }
 
-void ssim::network::init(uint16_t port /*= 9301*/, int therad_num /*= 1*/)
+void ssim::network::init(std::shared_ptr<msg_route_interface> msg_route, uint16_t port /*= 9301*/, int therad_num /*= 1*/)
 {
+    // 初始化msg_route引用
+    msg_route_ = msg_route;
     // 初始化asio相关组件
     ioc_ = std::make_shared<asio::io_context>(therad_num);
     acc_ = std::make_shared<tcp::acceptor>(*ioc_, tcp::endpoint(tcp::v4(), port));
@@ -85,12 +87,7 @@ uint64_t ssim::network::create_session_id()
     return session_id;
 }
 
-SSIM_API ssim::network_interface * ssim::create_network_interface()
+SSIM_API std::shared_ptr<ssim::network_interface> ssim::create_network_interface()
 {
-    return new network();
-}
-
-SSIM_API void ssim::destory_network_interface(ssim::network_interface * network)
-{
-    delete network;
+    return std::make_shared<ssim::network>();
 }
