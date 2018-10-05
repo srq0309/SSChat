@@ -51,13 +51,13 @@ namespace ssim
     {
     public:
         // 检查密码
-        virtual bool check_user_passwd(const char *user, const char *passwd) = 0;
+        virtual int check_user_passwd(const char *user, const char *passwd) = 0;
 
         // 更改密码
-        virtual bool change_passwd_x4(const char *user, const char *newpasswd,
+        virtual int change_passwd_x4(const char *user, const char *newpasswd,
             const char *oldpasswd) = 0;
         // 更改密码
-        virtual bool change_passwd_x5(const char *user, const char *newpasswd,
+        virtual int change_passwd_x5(const char *user, const char *newpasswd,
             const char *question, const char *answer) = 0;
 
 
@@ -66,7 +66,7 @@ namespace ssim
             const char *question, const char *answer) = 0;
 
         // 持久化离线消息，用户名为目标用户名
-        virtual void persist_msg(const char *user_id,
+        virtual void persist_msg(const char *user,
             std::shared_ptr<std::vector<uint8_t>> p_data) = 0;
 
         // 获取某个用户的一条离线数据
