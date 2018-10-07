@@ -65,6 +65,9 @@ namespace ssim
         // 创建反馈消息
         std::shared_ptr<std::vector<uint8_t>> create_feedback(uint32_t subtype, uint32_t ss_err, uint64_t refid);
 
+        // 创建一个refid
+        uint64_t create_refid();
+
         // 解析目标用户名
         std::string unpack_dis_user(std::vector<uint8_t>& data);
 
@@ -76,6 +79,13 @@ namespace ssim
         };
         std::map<std::string, active_user> users_;
         std::shared_mutex users_mu_;
+
+        // 添加在线用户
+        void insert_active_user(const std::string& user, active_user user_map);
+        // 移除在线用户
+        void remove_active_user(const std::string& user);
+        // 查询在线用户
+        active_user get_user_map(const std::string& user);
     };
 
 }

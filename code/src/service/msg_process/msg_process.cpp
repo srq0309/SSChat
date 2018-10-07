@@ -92,7 +92,22 @@ void ssim::msg_process::do_work()
 
 std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::analysis_login(SSIM_header& header, std::vector<uint8_t>& data, uint64_t sessid)
 {
+    size_t nPtr = sizeof(header);
+    auto user = unpack_string(data, nPtr, 16);
+    nPtr += 16;
+    auto pass = unpack_string(data, nPtr, 32);
 
+    auto ret = msg_persistent_->check_user_passwd(user.c_str(), pass.c_str());
+
+    active_user user_map{};
+
+    if (0 == ret) {
+        // 校验通过，保留会话id
+        user_map.refid_ = create_refid();
+        user_map.sessid_ = sessid;
+
+        insert_active_user(user, user_map);
+    }
 }
 
 std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::analysis_msg(SSIM_header& header, std::vector<uint8_t>& data, uint64_t sessid)
@@ -128,7 +143,7 @@ std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::analysis_no_support(SSI
 std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::create_feedback(uint32_t subtype, uint32_t ss_err, uint64_t refid)
 {
     auto p_data = std::make_shared<std::vector<uint8_t>>();
-    
+
     subtype = htonl(subtype);
     ss_err = htonl(ss_err);
     refid = htonll(refid);
@@ -138,6 +153,11 @@ std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::create_feedback(uint32_
     pack(*p_data, p_data->size(), refid);
 
     return p_data;
+}
+
+uint64_t ssim::msg_process::create_refid()
+{
+    return uint64_t();
 }
 
 std::string ssim::msg_process::unpack_dis_user(std::vector<uint8_t>& data)
@@ -153,6 +173,18 @@ std::string ssim::msg_process::unpack_dis_user(std::vector<uint8_t>& data)
     char user[16];
     memcpy(user, &data[32], sizeof(user));
     return std::string(user);
+}
+
+void ssim::msg_process::insert_active_user(const std::string & user, active_user user_map)
+{
+    // TODO: 1-添加到在线用户表； 2-查询当前用户离线消息并将离线消息发送
+    {
+        std::shared_lock<std::shared_mutex> lk(users_mu_);
+    }
+}
+
+void ssim::msg_process::remove_active_user(const std::string & user)
+{
 }
 
 SSIM_API std::shared_ptr<msg_process_interface> ssim::create_msg_process_interface()

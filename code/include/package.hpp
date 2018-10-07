@@ -34,7 +34,13 @@ void unpack(uint8_t *data, size_t len, size_t dis, _Ty& val)
 std::string unpack_string(std::vector<uint8_t>& data, size_t dis, size_t len)
 {
     assert(dis + len <= data.size());
-    return std::string(&data[dis], &data[dis] + len);
+    std::string str;
+    for (int i = dis; i != dis + len; ++i) {
+        if (static_cast<char>(data[i]) == '\0')
+            break;
+        str.push_back(data[i]);
+    }
+    return std::move(str);
 }
 
 // 打包数据
