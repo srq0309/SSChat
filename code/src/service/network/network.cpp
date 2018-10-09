@@ -21,6 +21,8 @@ void ssim::network::run()
 {
     try {
         do_accept();
+        std::thread t(&network::start_send_data, this);
+        t.detach();
         ioc_->run();
     } catch (const std::exception& err) {
         std::cout << err.what() << std::endl;
@@ -49,16 +51,14 @@ inline void ssim::network::start_send_data()
         // msg_route接口保证数据存在
         assert(ret.p_data_);
 
-        auto iter = sess_.find(ret.session_id_);
-        if (sess_.end() != iter) {
-            std::shared_ptr<session> sess = iter->second.lock();
-            if (sess) {
-                // 会话依然存在则发送
-                sess->do_write_msg(ret.p_data_);
-            } else {
-                // 否则压入持久化队列
-                push_msg_persistent_queue(ret.p_data_);
-            }
+        auto iter = get_sess(ret.session_id_);
+        std::shared_ptr<session> sess = iter.lock();
+        if (sess) {
+            // 会话依然存在则发送
+            sess->do_write_msg(ret.p_data_);
+        } else {
+            // 否则压入持久化队列
+            push_msg_persistent_queue(ret.p_data_);
         }
     }
 }
@@ -76,6 +76,34 @@ ssim::session_data ssim::network::pop_msg_send_queue()
 void ssim::network::push_msg_persistent_queue(std::shared_ptr<std::vector<uint8_t>> p_data)
 {
     msg_route_->push_msg_persistent_queue(p_data);
+}
+
+void ssim::network::insert_sess(uint64_t sessid, std::weak_ptr<session> sess)
+{
+    std::lock_guard<std::shared_mutex> lk(sess_mu_);
+    sess_.insert({ sessid, sess });
+}
+
+void ssim::network::remove_sess(uint64_t sessid)
+{
+    {
+        // 移除会话表
+        std::lock_guard<std::shared_mutex> lk(sess_mu_);
+        sess_.erase(sessid);
+    }
+    
+    // TODO:发送撤销登陆消息
+
+}
+
+std::weak_ptr<ssim::session> ssim::network::get_sess(uint64_t sessid)
+{
+    std::shared_lock<std::shared_mutex> lk(sess_mu_);
+    auto iter = sess_.find(sessid);
+    if (iter == sess_.end()) {
+        return std::weak_ptr<ssim::session>();
+    }
+    return iter->second;
 }
 
 uint64_t ssim::network::create_session_id()

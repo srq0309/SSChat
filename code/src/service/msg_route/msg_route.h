@@ -26,6 +26,7 @@ namespace ssim
         public msg_route_interface
     {
     public:
+        msg_route() = default;
         virtual void push_msg_recv_queue(session_data data) override;
         virtual session_data pop_msg_recv_queue() override;
         virtual void push_msg_send_queue(session_data data) override;

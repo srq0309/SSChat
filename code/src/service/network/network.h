@@ -18,6 +18,7 @@
 #include <utility>
 #include <asio/ts/buffer.hpp>
 #include <asio/ts/internet.hpp>
+#include <shared_mutex>
 
 #include "ssim_server_interface.h"
 #include "session.h"
@@ -46,6 +47,10 @@ namespace ssim
         // 压入数据持久队列数据
         void push_msg_persistent_queue(std::shared_ptr<std::vector<uint8_t>> p_data);
 
+        void insert_sess(uint64_t sessid, std::weak_ptr<session> sess);
+        void remove_sess(uint64_t sessid);
+        std::weak_ptr<session> get_sess(uint64_t sessid);
+
     private:
         // 开始接收事件循环
         void do_accept();
@@ -62,7 +67,9 @@ namespace ssim
         uint64_t create_session_id();
         std::atomic<uint64_t> session_id_;
 
-        std::map<int64_t, std::weak_ptr<session>> sess_;
+        // 会话表
+        std::map<uint64_t, std::weak_ptr<session>> sess_;
+        std::shared_mutex sess_mu_;
 
         // 数据分发层接口
         std::shared_ptr<msg_route_interface> msg_route_;

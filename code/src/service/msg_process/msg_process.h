@@ -24,7 +24,8 @@ namespace ssim
         public msg_process_interface
     {
     public:
-        virtual void init(std::shared_ptr<msg_route_interface> msg_route,
+        virtual void init(
+            std::shared_ptr<msg_route_interface> msg_route,
             std::shared_ptr<msg_persistent_interface> msg_persistent,
             int thread_num) override;
 
@@ -49,7 +50,7 @@ namespace ssim
         // 解析登陆
         std::shared_ptr<std::vector<uint8_t>> analysis_login(SSIM_header& header, std::vector<uint8_t>& data, uint64_t sessid);
         // 解析即时消息
-        std::shared_ptr<std::vector<uint8_t>> analysis_msg(SSIM_header& header, std::vector<uint8_t>& data, uint64_t sessid);
+        std::shared_ptr<std::vector<uint8_t>> analysis_msg(SSIM_header& header, std::shared_ptr<std::vector<uint8_t>> p_data, uint64_t sessid);
         // 解析注册
         std::shared_ptr<std::vector<uint8_t>> analysis_regist(SSIM_header& header, std::vector<uint8_t>& data, uint64_t sessid);
         // 解析修改密码0x04
@@ -68,6 +69,9 @@ namespace ssim
         // 创建一个refid
         uint64_t create_refid();
 
+        // 检查用户合法性
+        bool check_refid(SSIM_header& header, const std::string& user);
+
         // 解析目标用户名
         std::string unpack_dis_user(std::vector<uint8_t>& data);
 
@@ -76,15 +80,16 @@ namespace ssim
         {
             uint64_t sessid_;
             uint64_t refid_;
+            bool is_empty() { return sessid_ == 0 && refid_ == 0; }
         };
         std::map<std::string, active_user> users_;
         std::shared_mutex users_mu_;
 
         // 添加在线用户
-        void insert_active_user(const std::string& user, active_user user_map);
+        void to_active_user(const std::string& user, active_user user_map);
         // 移除在线用户
         void remove_active_user(const std::string& user);
-        // 查询在线用户
+        // 查询在线用户，TODO：增加缓存减少查询实际的表
         active_user get_user_map(const std::string& user);
     };
 

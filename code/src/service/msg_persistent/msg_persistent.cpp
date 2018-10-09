@@ -10,7 +10,7 @@ using namespace ssim;
 
 int ssim::msg_persistent::check_user_passwd(const char *user, const char *passwd)
 {
-    static const char *sql_struct = R"(select password from ssim_user where username = %s)";
+    static const char *sql_struct = R"(select password from ssim_user where username = '%s')";
     char sql[512];
     snprintf(sql, sizeof(sql), sql_struct, user);
 
@@ -167,6 +167,7 @@ std::shared_ptr<std::vector<uint8_t>> ssim::msg_persistent::get_user_msg(const c
     }
 
     if (SQLITE_DONE == sqlite3_step(stmt)) {
+        erase_user_msg(user);
         destory_user_stmt_from_stmts(user);
         sqlite3_finalize(stmt);
         return nullptr;
@@ -176,6 +177,23 @@ std::shared_ptr<std::vector<uint8_t>> ssim::msg_persistent::get_user_msg(const c
     auto ret = std::make_shared<std::vector<uint8_t>>(pData, pData + nSize);
 
     return ret;
+}
+
+void ssim::msg_persistent::erase_user_msg(const char * user)
+{
+    static const char *sql_struct = R"(delete from ssim_msg where username = '%s')";
+    char sql[512];
+    snprintf(sql, sizeof(sql), sql_struct, user);
+
+    sqlite3_stmt *stmt;
+    if (SQLITE_OK != sqlite3_prepare_v2(db_, sql, -1, &stmt, nullptr)) {
+        sqlite3_finalize(stmt);
+        // TODO: log
+        return;
+    }
+    if (SQLITE_DONE != sqlite3_step(stmt)) {
+        // TODO: log
+    }
 }
 
 
@@ -204,7 +222,7 @@ sqlite3_stmt * ssim::msg_persistent::get_user_stmt(const char * user)
 
     static const char *sql_struct = R"(select message from ssim_msg where username = '%s')";
     char sql[512];
-    snprintf(sql, sizeof(sql), sql_struct, sql_struct, user);
+    snprintf(sql, sizeof(sql), sql_struct, user);
 
     sqlite3_stmt *stmt;
     const char *tail;
@@ -230,5 +248,5 @@ void ssim::msg_persistent::destory_user_stmt_from_stmts(const char * user)
 
 SSIM_API std::shared_ptr<msg_persistent_interface> ssim::create_msg_persistent_interface()
 {
-    return std::shared_ptr<msg_persistent>();
+    return std::make_shared<msg_persistent>();
 }

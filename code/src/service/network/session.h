@@ -31,6 +31,7 @@ namespace ssim
     {
     public:
         session(uint64_t session_id, tcp::socket socket, network *msg_net);
+        ~session();
 
         void start();
 

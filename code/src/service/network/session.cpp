@@ -10,8 +10,14 @@ ssim::session::session(uint64_t session_id, tcp::socket socket, network *msg_net
 {
 }
 
+ssim::session::~session()
+{
+    msg_net_->remove_sess(session_id_);
+}
+
 void ssim::session::start()
 {
+    msg_net_->insert_sess(session_id_, std::weak_ptr<session>(shared_from_this()));
     do_read_ssn_header();
 }
 
@@ -121,7 +127,8 @@ void ssim::session::do_write_ssn_header(std::shared_ptr<std::vector<uint8_t>> p_
         0x80,
         0x00
     };
-    std::vector<uint8_t> data;
+    std::shared_ptr<std::vector<uint8_t>> p_data2 = std::make_shared<std::vector<uint8_t>>();
+    std::vector<uint8_t>& data = *p_data2;
     pack(data, data.size(), ssn_header.magic_);
     pack(data, data.size(), ssn_header.length_);
     pack(data, data.size(), ssn_header.type_);
@@ -129,7 +136,7 @@ void ssim::session::do_write_ssn_header(std::shared_ptr<std::vector<uint8_t>> p_
 
     auto self(shared_from_this());
     asio::async_write(socket_, asio::buffer(data),
-        [this, self, p_data](std::error_code ec, std::size_t length)
+        [this, self, p_data, p_data2](std::error_code ec, std::size_t length)
     {
         if (!ec) {
             assert(length == ssn_header_len);

@@ -4,6 +4,10 @@
 #include <WinSock2.h>
 #pragma comment(lib, "ws2_32.lib")
 
+#include <random>
+#include <chrono>
+#include <ctime>
+
 using namespace ssim;
 
 void ssim::msg_process::init(std::shared_ptr<msg_route_interface> msg_route,
@@ -66,7 +70,7 @@ void ssim::msg_process::do_work()
             ret = analysis_login(ssim_header, *data.p_data_, data.session_id_);
             break;
         case 0x02:
-            ret = analysis_msg(ssim_header, *data.p_data_, data.session_id_);
+            ret = analysis_msg(ssim_header, data.p_data_, data.session_id_);
             break;
         case 0x03:
             ret = analysis_regist(ssim_header, *data.p_data_, data.session_id_);
@@ -92,6 +96,8 @@ void ssim::msg_process::do_work()
 
 std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::analysis_login(SSIM_header& header, std::vector<uint8_t>& data, uint64_t sessid)
 {
+    static constexpr uint32_t ERROR_MASK = 0x00010000;
+
     size_t nPtr = sizeof(header);
     auto user = unpack_string(data, nPtr, 16);
     nPtr += 16;
@@ -106,38 +112,117 @@ std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::analysis_login(SSIM_hea
         user_map.refid_ = create_refid();
         user_map.sessid_ = sessid;
 
-        insert_active_user(user, user_map);
+        // 激活用户
+        to_active_user(user, user_map);
     }
+
+    return create_feedback(0x01, (ERROR_MASK & ret), user_map.refid_);
 }
 
-std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::analysis_msg(SSIM_header& header, std::vector<uint8_t>& data, uint64_t sessid)
+std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::analysis_msg(
+    SSIM_header& header, std::shared_ptr<std::vector<uint8_t>> p_data, uint64_t sessid)
 {
+    static constexpr uint32_t ERROR_MASK = 0x00020000;
+    std::vector<uint8_t>& data = *p_data;
 
+    size_t nPtr = sizeof(header);
+    auto src_user = unpack_string(data, nPtr, 16);
+    nPtr += 16;
+    auto dis_user = unpack_string(data, nPtr, 16);
+
+    if (!check_refid(header, src_user)) {
+        // 鉴权失败
+        return create_feedback(0x02, (ERROR_MASK & 0x02), header.refid_);
+    }
+    if (msg_persistent_->check_user_passwd(dis_user.c_str(), "") == 1) {
+        // 用户不存在
+        return create_feedback(0x02, (ERROR_MASK & 0x01), header.refid_);
+    }
+    
+    auto user_map = get_user_map(dis_user);
+    if (user_map.is_empty()) {
+        // 用户离线，加入离线队列
+        msg_persistent_->persist_msg(dis_user.c_str(), p_data);
+        return create_feedback(0x02, (ERROR_MASK & 0x03), header.refid_);
+    }
+    
+    session_data sd = { user_map.sessid_, p_data };
+    msg_route_->push_msg_send_queue(sd);
+
+    return create_feedback(0x02, (ERROR_MASK & 0x00), header.refid_);
 }
 
 std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::analysis_regist(SSIM_header& header, std::vector<uint8_t>& data, uint64_t sessid)
 {
+    static constexpr uint32_t ERROR_MASK = 0x00030000;
+    
+    size_t nPtr = sizeof(header);
+    auto user = unpack_string(data, nPtr, 16);
+    nPtr += 16;
+    auto pass = unpack_string(data, nPtr, 32);
+    nPtr += 32;
+    auto question = unpack_string(data, nPtr, 512);
+    nPtr += 512;
+    auto answer = unpack_string(data, nPtr, 512);
 
+    auto ret = msg_persistent_->regist_user(user.c_str(), pass.c_str(),
+        question.c_str(), answer.c_str());
+
+    return create_feedback(0x03, (ERROR_MASK & ret), header.refid_);
 }
 
 std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::analysis_passwd_x4(SSIM_header& header, std::vector<uint8_t>& data, uint64_t sessid)
 {
+    static constexpr uint32_t ERROR_MASK = 0x00040000;
+    
+    size_t nPtr = sizeof(header);
+    auto user = unpack_string(data, nPtr, 16);
+    nPtr += 16;
+    auto oldpass = unpack_string(data, nPtr, 32);
+    nPtr += 32;
+    auto newpass = unpack_string(data, nPtr, 32);
 
+    auto ret = msg_persistent_->change_passwd_x4(user.c_str(),
+        newpass.c_str(), oldpass.c_str());
+
+    return create_feedback(0x04, (ERROR_MASK & ret), header.refid_);
 }
 
 std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::analysis_passwd_x5(SSIM_header& header, std::vector<uint8_t>& data, uint64_t sessid)
 {
+    static constexpr uint32_t ERROR_MASK = 0x00050000;
 
+    size_t nPtr = sizeof(header);
+    auto user = unpack_string(data, nPtr, 16);
+    nPtr += 16;
+    auto newpass = unpack_string(data, nPtr, 32);
+    nPtr += 32;
+    auto question = unpack_string(data, nPtr, 512);
+    nPtr += 512;
+    auto answer = unpack_string(data, nPtr, 512);
+
+    auto ret = msg_persistent_->change_passwd_x5(user.c_str(), newpass.c_str(),
+        question.c_str(), answer.c_str());
+
+    return create_feedback(0x05, (ERROR_MASK & ret), header.refid_);
 }
 
 std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::analysis_logout(SSIM_header & header, std::vector<uint8_t>& data, uint64_t sessid)
 {
-    return std::shared_ptr<std::vector<uint8_t>>();
+    static constexpr uint32_t ERROR_MASK = 0x00060000;
+
+    size_t nPtr = sizeof(header);
+    auto user = unpack_string(data, nPtr, 16);
+
+    remove_active_user(user);
+
+    return create_feedback(0x05, ERROR_MASK, header.refid_);
 }
 
 std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::analysis_no_support(SSIM_header& header, std::vector<uint8_t>& data, uint64_t sessid)
 {
-
+    static constexpr uint32_t ERROR_MASK = 0xFFFFFFFF;
+    return create_feedback(0x05, ERROR_MASK, header.refid_);
 }
 
 std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::create_feedback(uint32_t subtype, uint32_t ss_err, uint64_t refid)
@@ -157,7 +242,23 @@ std::shared_ptr<std::vector<uint8_t>> ssim::msg_process::create_feedback(uint32_
 
 uint64_t ssim::msg_process::create_refid()
 {
-    return uint64_t();
+    uint64_t ret{};
+    auto t = time(nullptr);
+    memcpy(&ret, &t, sizeof(t));
+    ret = ret << 4;
+    std::random_device rd;
+    ret = ret & rd();   // 时间戳+随机数
+
+    return ret;
+}
+
+bool ssim::msg_process::check_refid(SSIM_header & header, const std::string & user)
+{
+    auto user_map = get_user_map(user);
+    if (user_map.is_empty()) {
+        return false;
+    }
+    return header.refid_ == user_map.refid_;
 }
 
 std::string ssim::msg_process::unpack_dis_user(std::vector<uint8_t>& data)
@@ -175,19 +276,35 @@ std::string ssim::msg_process::unpack_dis_user(std::vector<uint8_t>& data)
     return std::string(user);
 }
 
-void ssim::msg_process::insert_active_user(const std::string & user, active_user user_map)
+void ssim::msg_process::to_active_user(const std::string & user, active_user user_map)
 {
     // TODO: 1-添加到在线用户表； 2-查询当前用户离线消息并将离线消息发送
     {
-        std::shared_lock<std::shared_mutex> lk(users_mu_);
+        std::lock_guard<std::shared_mutex> lk(users_mu_);
+        users_.insert({ user,user_map });
+    }
+    while (auto data = msg_persistent_->get_user_msg(user.c_str())) {
+        msg_route_->push_msg_send_queue({ user_map.sessid_, data });
     }
 }
 
 void ssim::msg_process::remove_active_user(const std::string & user)
 {
+    std::lock_guard<std::shared_mutex> lk(users_mu_);
+    users_.erase(user);
+}
+
+msg_process::active_user ssim::msg_process::get_user_map(const std::string & user)
+{
+    std::shared_lock<std::shared_mutex> lk(users_mu_);
+    auto iter = users_.find(user);
+    if (iter == users_.end()) {
+        return { 0,0 };
+    }
+    return iter->second;
 }
 
 SSIM_API std::shared_ptr<msg_process_interface> ssim::create_msg_process_interface()
 {
-    return std::shared_ptr<msg_process>();
+    return std::make_shared<msg_process>();
 }

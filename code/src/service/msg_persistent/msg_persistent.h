@@ -28,6 +28,8 @@ namespace ssim
         virtual void persist_msg(const char * user, std::shared_ptr<std::vector<uint8_t>> p_data) override;
         // 返回一条结果，对于同一个用户的数据不可重入
         virtual std::shared_ptr<std::vector<uint8_t>> get_user_msg(const char * user) override;
+        // 同一个用户数据查询完成后的清理
+        void erase_user_msg(const char *user);
 
         msg_persistent();
         ~msg_persistent();

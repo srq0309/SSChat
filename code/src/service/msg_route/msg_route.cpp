@@ -61,5 +61,5 @@ std::shared_ptr<std::vector<uint8_t>> ssim::msg_route::pop_msg_persistent_queue(
 
 SSIM_API std::shared_ptr<msg_route_interface> ssim::create_msg_route_interface()
 {
-    return std::shared_ptr<msg_route>();
+    return std::make_shared<msg_route>();
 }
